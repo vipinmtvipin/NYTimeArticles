@@ -1,103 +1,97 @@
 
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ny_articles_app/core/constants/string_constants.dart';
 import 'package:ny_articles_app/core/theme/color_constant.dart';
 import 'package:ny_articles_app/core/utils/my_navigator.dart';
+import 'package:ny_articles_app/data/model/article_responds.dart';
+import 'package:ny_articles_app/presentation/article_screen/bloc/article_bloc.dart';
+import 'package:ny_articles_app/presentation/article_screen/bloc/article_state.dart';
+import 'package:ny_articles_app/presentation/article_screen/di/di_container.dart';
 import 'package:ny_articles_app/presentation/base_page.dart';
 import 'package:ny_articles_app/presentation/common_widgets/no_data_found.dart';
 
 
 class ArticlePage extends BasePage {
   static const routeName = '/article-screen';
-
+  const ArticlePage({super.key});
 
   @override
-  _ArticlePageState createState() => ArticlePageState();
+  ArticlePageState createState() => ArticlePageState();
 }
 
 class ArticlePageState extends BasePageState<ArticlePage> {
 
-//  CartBloc _cartBloc;
+   late ArticleBloc _articleCubit;
 
   @override
   void initState() {
     super.initState();
-
-    /*_cartBloc = CartBloc(
-        appRepository: RepositoryProvider.of<IAppRepository>(context));
-
-      getCartview(pageCount);*/
+     _articleCubit = getIt<ArticleBloc>();
+     _articleCubit.fetchArticles();
   }
-
-/*  void getCartview(int count) {
-    Future.delayed(Duration.zero, () {
-      _cartBloc.callCart(sessionValues.getStringSession(SharedPrefKeys.token), count);
-    });
-  }*/
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        bottom: false,
-        child: BlocConsumer(
-          bloc:  _cartBloc,
-          listener: (BuildContext context, CartState state) {
-            if (state.listSuccess) {
-              hideLoadingDialog();
-            }
-            if (state.noNetwork) {
-              showToast(AppStrings.noNetwork);
-            } else if (state.loading) {
-              showLoadingDialog();
-            } else if (state.isFailure) {
-              hideLoadingDialog();
-              if (state.errorMessage != null && state.errorMessage.isNotEmpty) {
-                showToast(state.errorMessage);
-              } else {
-                showToast(AppStrings.serverError);
+    return SafeArea(
+      bottom: false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Article List'),),
+           body: BlocConsumer(
+            bloc: _articleCubit,
+            listener: (BuildContext context, ArticleState state) {
+              if (state is ArticleLoading) {
+                  showLoadingDialog();
               }
-            }
-          },
-          builder: (BuildContext context, CartState state) {
-            return whiteBar(false);//uiView(state);
-          },
+              else if (state is ArticleNoNetwork) {
+                showToast(AppStrings.noNetwork);
+              }
+              else if (state is ArticleError) {
+                hideLoadingDialog();
+                if (state.message != null && state.message.isNotEmpty) {
+                  showToast(state.message);
+                } else {
+                  showToast(AppStrings.serverError);
+                }
+              }
+            },
+            builder: (BuildContext context, ArticleState state) {
+               if(state is ArticleLoaded){
+                 return articleLister(state.articles);
+              }else{
+                 return const NoDataUI(AppStrings.noDataFound);
+               }
+            },
+          ),
         ),
-      ),
     );
   }
 
 
 
-  Widget whiteBar(bool isBottom) {
-    return Container(
-      margin: isBottom? const EdgeInsets.only(left: 0, right: 0, bottom: 10, top: 15):
-      const EdgeInsets.only(left: 30, right: 30, bottom: 0, top: 15),
-      color: AppColors.white,
-      height: 0.8,
-    );
-  }
 
 
-/*  Widget reviewLister(CartState state) {
-    return (state.cartList == null || state.cartList.isEmpty)
-        ? const NoDataUI("")
+
+  Widget articleLister(List<Result> articles) {
+    return (articles.isEmpty)
+        ? const NoDataUI(AppStrings.noDataFound)
         : ListView.builder(
         shrinkWrap: false,
-        itemCount: state.cartList.length,
+        itemCount: articles.length,
         itemBuilder: (BuildContext context, int index) {
-          return reviewList(state.cartList[index]);
+          return articleCard(articles[index]);
         },
       );
-  }*/
+  }
 
 
-  /*Widget reviewList(CartData cartData) {
-        return  Container( );
-  }*/
+  Widget articleCard(Result article) {
+        return Container(color: Colors.red,height: 20,
+        child: Text(article.title.toString()),);
+  }
 
   /// we can move this text logic to generic class for entire application use
   /// also add different constraints based on our scenarios
@@ -109,11 +103,10 @@ class ArticlePageState extends BasePageState<ArticlePage> {
     );
   }
 
-
-
-
-  void goBack() {
-    MyNavigator.popUp(context);
+  @override
+  void dispose() {
+    _articleCubit.close(); // Close the cubit to avoid memory leaks
+    super.dispose();
   }
 
 }

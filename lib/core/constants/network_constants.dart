@@ -8,6 +8,6 @@ class NetworkKeys {
 
   static String base_url = environmentHost[AppStrings.baseUrl]!;
 
-  static const String login = '/auth/login';
-  static const String products = '/products';
+  static const String article_list = '/mostviewed/all-sections/7.json';
+
 }

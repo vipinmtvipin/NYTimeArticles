@@ -5,7 +5,6 @@ import '../../core/network/logging_interceptor.dart';
 
 class ApiService {
   ApiService._();
-
   static final instance = ApiService._();
 
   final Dio _dio = Dio(BaseOptions(

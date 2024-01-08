@@ -12,7 +12,7 @@ class NoDataUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return   Container(
-      color: AppColors.whiteGray,
+      color: AppColors.skyBlue,
       child: Center(child: Text(
         text,
         style: AppTextStyle.txtBold14 ,

@@ -6,7 +6,7 @@ import 'package:ny_articles_app/core/constants/string_constants.dart';
 import 'package:ny_articles_app/core/theme/app_text_style.dart';
 
 class BasePage extends StatefulWidget {
-  const BasePage({required Key key}) : super(key: key);
+  const BasePage({Key? key}) : super(key: key);
 
   @override
   BasePageState createState() => BasePageState();

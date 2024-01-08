@@ -1,59 +1,43 @@
 import 'dart:async';
-
-
-
 import 'package:bloc/bloc.dart';
-
-import 'package:flutter/material.dart';
+import 'package:ny_articles_app/core/utils/logger.dart';
+import '../../../config.dart' show environmentHost;
 import 'package:ny_articles_app/core/constants/string_constants.dart';
 import 'package:ny_articles_app/core/network/connectivity_service.dart';
 import 'package:ny_articles_app/data/model/article_responds.dart';
+import 'package:ny_articles_app/domain/usecases/article_use_case.dart';
 
 import 'article_state.dart';
 
 
 class ArticleBloc extends Cubit<ArticleState> {
 
-  final IAppRepository appRepository;
+  final ArticleUseCase _articleUseCase;
 
+  ArticleBloc(this._articleUseCase) : super(ArticleInitial());
 
-  ArticleBloc({@required this.appRepository}) : super(ArticleState.initial());
-
-
-  Future<void> callCart(String token,int page) async {
+  Future<void> fetchArticles() async {
     if(await ConnectivityService.isConnected()) {
       try {
-          emit(state.dataWith(isLoading: true,));
+        emit(ArticleLoading());
+        Logger.log("ArticleData", "Loading...");
+        String apiKey = environmentHost[AppStrings.apikey]!;
+        Map<String, dynamic> payload = { AppStrings.apikey : apiKey, };
 
-        Map<String, dynamic> payload = {
-          "page":page,
-          "limit":10
-        };
+        ArticleResponds? responds = await _articleUseCase.execute(payload);
 
-        ArticleResponds responds = await appRepository.callCart(payload,token);
-
-        if (responds != null) {
-              emit(state.dataWith(noNetwork: false,
-                  isLoading: false,
-                  cartList: responds.results,));
+        if (responds != null && responds.status == 'OK') {
+          emit(ArticleLoaded(articles: responds.results!));
           }else {
-          setStateValues(AppStrings.serverError);
+          emit(ArticleError(message: AppStrings.serverError));
         }
       } catch (e) {
-        setStateValues(AppStrings.serverError);
+        emit(ArticleError(message: AppStrings.serverError));
       }
     }else{
-      emit(state.dataWith(noNetwork: true));
+      emit(ArticleNoNetwork());
     }
-
   }
-
-
-  Future<void> setStateValues(String msg) async{
-    emit(state.dataWith(noNetwork: false,isFailure: true,  isLoading: false, cartList: [],
-      errorMessage: msg));
-}
-
 
 }
 
