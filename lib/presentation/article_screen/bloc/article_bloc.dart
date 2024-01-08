@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:ny_articles_app/core/utils/logger.dart';
+import 'package:get_it/get_it.dart';
 import '../../../config.dart' show environmentHost;
 import 'package:ny_articles_app/core/constants/string_constants.dart';
 import 'package:ny_articles_app/core/network/connectivity_service.dart';
@@ -16,11 +16,11 @@ class ArticleBloc extends Cubit<ArticleState> {
 
   ArticleBloc(this._articleUseCase) : super(ArticleInitial());
 
+
   Future<void> fetchArticles() async {
-    if(await ConnectivityService.isConnected()) {
+    if(await GetIt.instance.get<ConnectivityService>().isConnected()) {
       try {
         emit(ArticleLoading());
-        Logger.log("ArticleData", "Loading...");
         String apiKey = environmentHost[AppStrings.apikey]!;
         Map<String, dynamic> payload = { AppStrings.apikey : apiKey, };
 

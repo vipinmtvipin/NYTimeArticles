@@ -1,11 +1,8 @@
 
-import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ny_articles_app/core/constants/string_constants.dart';
-import 'package:ny_articles_app/core/theme/color_constant.dart';
-import 'package:ny_articles_app/core/utils/my_navigator.dart';
 import 'package:ny_articles_app/data/model/article_responds.dart';
 import 'package:ny_articles_app/presentation/article_screen/bloc/article_bloc.dart';
 import 'package:ny_articles_app/presentation/article_screen/bloc/article_state.dart';
@@ -39,7 +36,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
       bottom: false,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Article List'),),
+          title: const Text(AppStrings.homeToolbarTitle),),
            body: BlocConsumer(
             bloc: _articleCubit,
             listener: (BuildContext context, ArticleState state) {
@@ -57,6 +54,9 @@ class ArticlePageState extends BasePageState<ArticlePage> {
                   showToast(AppStrings.serverError);
                 }
               }
+              if(state is ArticleLoaded){
+                hideLoadingDialog();
+              }
             },
             builder: (BuildContext context, ArticleState state) {
                if(state is ArticleLoaded){
@@ -69,9 +69,6 @@ class ArticlePageState extends BasePageState<ArticlePage> {
         ),
     );
   }
-
-
-
 
 
 

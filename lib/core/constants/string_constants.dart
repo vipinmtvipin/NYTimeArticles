@@ -12,4 +12,6 @@ class AppStrings {
   static const serverError = "Could not connect to Server";
   static const noDataFound = "No Article Found";
   static const pleaseWait = "Please Wait...";
+
+  static const String homeToolbarTitle = 'NY Times Most Popular';
 }
