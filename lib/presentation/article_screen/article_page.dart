@@ -1,18 +1,26 @@
-
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ny_articles_app/core/constants/image_constant.dart';
 import 'package:ny_articles_app/core/constants/string_constants.dart';
+import 'package:ny_articles_app/core/theme/app_text_style.dart';
+import 'package:ny_articles_app/core/theme/color_constant.dart';
+import 'package:ny_articles_app/core/theme/values/dimensions.dart';
+import 'package:ny_articles_app/core/utils/responsive_ui.dart';
+import 'package:ny_articles_app/core/utils/size_utils.dart';
 import 'package:ny_articles_app/data/model/article_responds.dart';
 import 'package:ny_articles_app/presentation/article_screen/bloc/article_bloc.dart';
 import 'package:ny_articles_app/presentation/article_screen/bloc/article_state.dart';
 import 'package:ny_articles_app/presentation/article_screen/di/di_container.dart';
 import 'package:ny_articles_app/presentation/base_page.dart';
+import 'package:ny_articles_app/presentation/common_widgets/article_item.dart';
+import 'package:ny_articles_app/presentation/common_widgets/custome_appbar.dart';
+import 'package:ny_articles_app/presentation/common_widgets/custome_drawer.dart';
 import 'package:ny_articles_app/presentation/common_widgets/no_data_found.dart';
-
 
 class ArticlePage extends BasePage {
   static const routeName = '/article-screen';
+
   const ArticlePage({super.key});
 
   @override
@@ -20,84 +28,109 @@ class ArticlePage extends BasePage {
 }
 
 class ArticlePageState extends BasePageState<ArticlePage> {
-
-   late ArticleBloc _articleCubit;
+  late ArticleBloc _articleCubit;
+  late Size sizer;
 
   @override
   void initState() {
     super.initState();
-     _articleCubit = getIt<ArticleBloc>();
-     _articleCubit.fetchArticles();
+    _articleCubit = getIt<ArticleBloc>();
+    _articleCubit.fetchArticles();
   }
 
   @override
   Widget build(BuildContext context) {
+    sizer = MediaQuery.of(context).size;
     return SafeArea(
+      top: false,
       bottom: false,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(AppStrings.homeToolbarTitle),),
-           body: BlocConsumer(
-            bloc: _articleCubit,
-            listener: (BuildContext context, ArticleState state) {
-              if (state is ArticleLoading) {
-                  showLoadingDialog();
-              }
-              else if (state is ArticleNoNetwork) {
-                showToast(AppStrings.noNetwork);
-              }
-              else if (state is ArticleError) {
-                hideLoadingDialog();
-                if (state.message != null && state.message.isNotEmpty) {
-                  showToast(state.message);
-                } else {
-                  showToast(AppStrings.serverError);
-                }
-              }
-              if(state is ArticleLoaded){
-                hideLoadingDialog();
-              }
-            },
-            builder: (BuildContext context, ArticleState state) {
-               if(state is ArticleLoaded){
-                 return articleLister(state.articles);
-              }else{
-                 return const NoDataUI(AppStrings.noDataFound);
-               }
-            },
-          ),
-        ),
+      child: Responsive(
+        /// if the UI is different for web/tab we need to create separate widget
+        /// now I using same one for all because UI is similar for web and mobile
+        mobile: mobileView(context),
+        desktop: mobileView(context),
+        tablet: mobileView(context),
+      ),
     );
   }
 
+  Widget mobileView(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: Text(
+          AppStrings.homeToolbarTitle,
+          style: TextStyle(
+            fontSize:
+                kIsWeb ? ((sizer.height + sizer.width) / 70)! : getSize(18),
+          ),
+        ),
+        centerTitle: kIsWeb ? true : false,
+        actions: const [
+          Icon(Icons.search),
+          SizedBox(
+            width: Dimensions.appWidgetGap10,
+          ),
+          Icon(
+            Icons.more_vert,
+          ),
+          SizedBox(
+            width: Dimensions.appWidgetGap10,
+          ),
+        ],
+      ),
+      drawer: kIsWeb ? null : const CustomDrawer(),
+      body: BlocConsumer(
+        bloc: _articleCubit,
+        listener: (BuildContext context, ArticleState state) {
+          if (state is ArticleLoading) {
+            showLoadingDialog();
+          } else if (state is ArticleNoNetwork) {
+            showToast(AppStrings.noNetwork);
+          } else if (state is ArticleError) {
+            hideLoadingDialog();
+            if (state.message != null && state.message.isNotEmpty) {
+              showToast(state.message);
+            } else {
+              showToast(AppStrings.serverError);
+            }
+          }
+          if (state is ArticleLoaded) {
+            hideLoadingDialog();
+          }
+        },
+        builder: (BuildContext context, ArticleState state) {
+          if (state is ArticleLoaded) {
+            return articleLister(state.articles);
+          } else {
+            return const NoDataUI(AppStrings.noDataFound);
+          }
+        },
+      ),
+    );
+  }
 
+  /// if the ui is different for web,
+  /// we can add all web related UI components here
+  /// or create a separate class for handling web section
+  Widget webView(BuildContext context) {
+    return Container();
+  }
 
   Widget articleLister(List<Result> articles) {
     return (articles.isEmpty)
         ? const NoDataUI(AppStrings.noDataFound)
         : ListView.builder(
-        shrinkWrap: false,
-        itemCount: articles.length,
-        itemBuilder: (BuildContext context, int index) {
-          return articleCard(articles[index]);
-        },
-      );
-  }
-
-
-  Widget articleCard(Result article) {
-        return Container(color: Colors.red,height: 20,
-        child: Text(article.title.toString()),);
-  }
-
-  /// we can move this text logic to generic class for entire application use
-  /// also add different constraints based on our scenarios
-  Widget textBinder(String text, TextStyle styles, TextAlign pos) {
-    return Text(
-        text,
-        style: styles,
-        textAlign: pos,
-    );
+            shrinkWrap: false,
+            itemCount: articles.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ArticleItemWidget(
+                article: articles[index],
+                onTap: () => {
+                  // on item click navigate to details screen
+                },
+              );
+            },
+          );
   }
 
   @override
@@ -105,5 +138,4 @@ class ArticlePageState extends BasePageState<ArticlePage> {
     _articleCubit.close(); // Close the cubit to avoid memory leaks
     super.dispose();
   }
-
 }

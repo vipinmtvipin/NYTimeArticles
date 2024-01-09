@@ -12,5 +12,5 @@ class Dimensions {
   static const appAllMargin10 = kIsWeb ? webX : mobileX;
 
   static const appWidgetGap10 = kIsWeb ? 15.0 : 10.0;
-  static const appWidgetGap15 = kIsWeb ? 20.0 : 15.0;
+  static const appWidgetGap20 = kIsWeb ? 25.0 : 20.0;
 }

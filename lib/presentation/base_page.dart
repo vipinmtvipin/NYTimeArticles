@@ -41,24 +41,18 @@ class BasePageState<T extends BasePage> extends State<T> {
     child: spinKitLoader,
   );
 
-  static final spinKitLoader = Center(
+  static const spinKitLoader = Center(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         // PouringHourGlass
-        const SpinKitPouringHourGlass(
+        SpinKitPouringHourGlass(
             color: Colors.white,
             strokeWidth: 2.0,
             duration: Duration(seconds: 3),
             size: kIsWeb? 55 : 50),
-
-        const SizedBox(
-          height: 13.0,
-        ),
-
-        Text(AppStrings.pleaseWait, style: AppTextStyle.txtBold12),
       ],
     ),
   );

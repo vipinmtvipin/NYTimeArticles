@@ -1,5 +1,5 @@
 class ImageConstant {
   static const String _imagePath = 'assets/images/';
 
-  static String imgHome = '${_imagePath}img_home.svg';
+  static String imgHome = '${_imagePath}logo.png';
 }
