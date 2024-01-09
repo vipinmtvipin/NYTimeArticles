@@ -7,7 +7,7 @@ import 'package:ny_articles_app/presentation/article_screen/di/di_container.dart
 import 'presentation/article_screen/article_page.dart';
 
 Future<void> main() async {
-
+  WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   /** SimpleBlocObserver oversees Blocs and delegates to BlocDelegate.
       BlocDelegate handles events from all Blocs which are delegated by the BlocSupervisor.
