@@ -33,37 +33,40 @@ class ArticleItemWidget extends StatelessWidget {
         margin: const EdgeInsets.all(10.0),
         child: ListTile(
           onTap: onTap,
-          leading: ClipOval(
-            child: Image.network(
-              imageUrl,
-              width: kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(60),
-              height: kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(60),
-              fit: BoxFit.cover,
-              alignment: Alignment.center,
-              errorBuilder:
-                  (BuildContext context, Object error, StackTrace? stackTrace) {
-                return Icon(
-                  Icons.error,
-                  size:
-                      kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(60),
-                );
-              },
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                } else {
-                  return CircularProgressIndicator(
-                    color: AppColors.green,
-                    strokeWidth: 1.5,
-                    backgroundColor: AppColors.lightGray,
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            (loadingProgress.expectedTotalBytes ?? 1)
-                        : null,
+          leading: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: ClipOval(
+              child: Image.network(
+                imageUrl,
+                width: kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(55),
+                height: kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(55),
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+                errorBuilder:
+                    (BuildContext context, Object error, StackTrace? stackTrace) {
+                  return Icon(
+                    Icons.error,
+                    size:
+                        kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(55),
                   );
-                }
-              },
+                },
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return CircularProgressIndicator(
+                      color: AppColors.green,
+                      strokeWidth: 1.5,
+                      backgroundColor: AppColors.lightGray,
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              (loadingProgress.expectedTotalBytes ?? 1)
+                          : null,
+                    );
+                  }
+                },
+              ),
             ),
           ),
           title: Column(
@@ -100,10 +103,13 @@ class ArticleItemWidget extends StatelessWidget {
               )
             ],
           ),
-          trailing: Icon(
-            Icons.arrow_forward_ios,
-            size: kIsWeb ? (sizer.height + sizer.width) / 70 : getSize(20),
-            color: AppColors.gray,
+          trailing: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Icon(
+              Icons.arrow_forward_ios,
+              size: kIsWeb ? (sizer.height + sizer.width) / 70 : getSize(20),
+              color: AppColors.gray,
+            ),
           ),
         ));
   }

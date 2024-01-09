@@ -61,7 +61,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
           AppStrings.homeToolbarTitle,
           style: TextStyle(
             fontSize:
-                kIsWeb ? ((sizer.height + sizer.width) / 70)! : getSize(18),
+                kIsWeb ? ((sizer.height + sizer.width) / 80)! : getSize(18),
           ),
         ),
         centerTitle: kIsWeb ? true : false,

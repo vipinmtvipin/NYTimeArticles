@@ -44,6 +44,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size(
     size.width,
-    height ?? (kIsWeb ? getSize(60) : getSize(50)),
+    height ?? (kIsWeb ? getSize(65) : getSize(50)),
   );
 }
