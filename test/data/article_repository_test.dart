@@ -9,6 +9,7 @@ import 'package:ny_articles_app/domain/repositories/article_repository.dart';
 class MockDio extends Mock implements Dio {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   group('ArticleRepository', () {
     late ArticleRepository articleRepository;
     late MockDio mockDio;

@@ -15,6 +15,7 @@ class MockConnectivityService extends Mock implements ConnectivityService {}
 class MockArticleResponds extends Mock implements ArticleResponds {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   group('ArticleBloc', () {
     late ArticleBloc articleCubit;
     late MockArticleUseCase mockArticleUseCase;

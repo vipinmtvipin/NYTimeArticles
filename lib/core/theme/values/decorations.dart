@@ -14,10 +14,6 @@ class Decorations {
     borderRadius: BorderRadius.all(Radius.circular(8)),
   );
 
-  static final RoundedRectangleBorder cardRectBorder = RoundedRectangleBorder(
-    side: const BorderSide(color: Colors.black, width: 0.3,),
-    borderRadius:  BorderRadius.circular(25.0),);
-
 
 }
 

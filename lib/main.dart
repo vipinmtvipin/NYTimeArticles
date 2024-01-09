@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ny_articles_app/core/theme/color_constant.dart';
 import 'package:ny_articles_app/core/utils/bloc_observer.dart';
 import 'package:ny_articles_app/presentation/article_screen/di/di_container.dart' as di;
 import 'presentation/article_screen/article_page.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +19,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  MyApp({super.key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

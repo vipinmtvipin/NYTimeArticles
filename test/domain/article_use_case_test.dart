@@ -9,6 +9,7 @@ import 'package:ny_articles_app/domain/usecases/article_use_case.dart';
 class MockArticleRepository extends Mock implements ArticleRepository {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   group('ArticleUseCase', () {
     late ArticleUseCase articleUseCase;
     late MockArticleRepository mockArticleRepository;

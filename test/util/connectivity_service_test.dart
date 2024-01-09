@@ -4,6 +4,7 @@ import 'package:ny_articles_app/core/network/connectivity_service.dart';
 
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   group('ConnectionService', () {
     late ConnectivityService connectionUtil;
 
@@ -12,7 +13,9 @@ void main() {
     });
 
     test('isConnected returns true when there is an internet connection', () {
+      // Act
       final isConnected = connectionUtil.isConnected();
+      // Assert
       expect(isConnected, true);
     });
   });

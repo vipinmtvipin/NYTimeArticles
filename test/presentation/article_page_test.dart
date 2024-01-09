@@ -14,20 +14,19 @@ import 'package:ny_articles_app/presentation/article_screen/bloc/article_state.d
 class MockArticleCubit extends MockCubit<ArticleState> implements ArticleBloc {}
 
 void main() {
-  group('ArticleListPage', () {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  group('ArticlePage', () {
     late MockArticleCubit mockArticleCubit;
 
     setUp(() {
       mockArticleCubit = MockArticleCubit();
-
-      when(mockArticleCubit.state).thenReturn(ArticleInitial());
     });
 
     tearDown(() {
       GetIt.I.reset();
     });
 
-    testWidgets('renders ArticlePage', (WidgetTester tester) async {
+    testWidgets('Scanning ArticlePage', (WidgetTester tester) async {
       // Arrange
       when(mockArticleCubit.state).thenReturn(ArticleLoading());
 
@@ -47,7 +46,7 @@ void main() {
       verify(mockArticleCubit.fetchArticles()).called(1);
     });
 
-    testWidgets('renders loading indicator when loading', (WidgetTester tester) async {
+    testWidgets('Scanning loading indicator when loading', (WidgetTester tester) async {
       // Arrange
       when(mockArticleCubit.state).thenReturn(ArticleLoading());
 
@@ -65,7 +64,7 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('renders error message when error occurs', (WidgetTester tester) async {
+    testWidgets('Scanning error message when error occurs', (WidgetTester tester) async {
       // Arrange
       when(mockArticleCubit.state).thenReturn(ArticleError(message: 'Error'));
 

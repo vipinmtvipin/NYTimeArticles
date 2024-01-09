@@ -1,5 +1,6 @@
 
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ny_articles_app/core/constants/network_constants.dart';
 import 'package:ny_articles_app/data/api/api_service.dart';
 import 'package:ny_articles_app/data/model/article_responds.dart';
@@ -12,7 +13,8 @@ class ArticleRepositoryIml extends ArticleRepository {
   @override
   Future<ArticleResponds?> getArticleList(Map<String, dynamic> payload) async {
       try {
-      Response response = await ApiService.instance.get(NetworkKeys.article_list,
+      Response response = await GetIt.instance
+          .get<ApiService>().get(NetworkKeys.article_list,
           queryParameters: payload,
           options: Options(contentType: 'application/json',));
 

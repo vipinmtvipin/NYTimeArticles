@@ -4,8 +4,6 @@ import 'package:ny_articles_app/core/constants/network_constants.dart';
 import '../../core/network/logging_interceptor.dart';
 
 class ApiService {
-  ApiService._();
-  static final instance = ApiService._();
 
   final Dio _dio = Dio(BaseOptions(
     baseUrl: NetworkKeys.base_url,
