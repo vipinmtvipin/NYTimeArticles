@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -21,7 +20,6 @@ class ArticleItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var imageUrl = "";
-    var sizer = MediaQuery.of(context).size;
     if (article.media!.isNotEmpty) {
       if (article.media![0].mediaMetadata!.isNotEmpty) {
         if (article.media![0].mediaMetadata![0].url!.isNotEmpty) {
@@ -38,16 +36,27 @@ class ArticleItemWidget extends StatelessWidget {
             child: ClipOval(
               child: Image.network(
                 imageUrl,
-                width: kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(55),
-                height: kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(55),
+                width: kIsWeb
+                    ? GetIt.instance
+                        .get<ResponsiveSize>()
+                        .calculateSize(context, 0.03)
+                    : getSize(55),
+                height: kIsWeb
+                    ? GetIt.instance
+                        .get<ResponsiveSize>()
+                        .calculateSize(context, 0.03)
+                    : getSize(55),
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
-                errorBuilder:
-                    (BuildContext context, Object error, StackTrace? stackTrace) {
+                errorBuilder: (BuildContext context, Object error,
+                    StackTrace? stackTrace) {
                   return Icon(
                     Icons.error,
-                    size:
-                        kIsWeb ? (sizer.height + sizer.width) / 40 : getSize(55),
+                    size: kIsWeb
+                        ? GetIt.instance
+                            .get<ResponsiveSize>()
+                            .calculateSize(context, 0.02)
+                        : getSize(55),
                   );
                 },
                 loadingBuilder: (BuildContext context, Widget child,
@@ -104,10 +113,14 @@ class ArticleItemWidget extends StatelessWidget {
             ],
           ),
           trailing: Padding(
-            padding: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.all(5.0),
             child: Icon(
               Icons.arrow_forward_ios,
-              size: kIsWeb ? (sizer.height + sizer.width) / 70 : getSize(20),
+              size: kIsWeb
+                  ? GetIt.instance
+                      .get<ResponsiveSize>()
+                      .calculateSize(context, 0.01)
+                  : getSize(20),
               color: AppColors.gray,
             ),
           ),

@@ -29,7 +29,7 @@ class ArticlePage extends BasePage {
 
 class ArticlePageState extends BasePageState<ArticlePage> {
   late ArticleBloc _articleCubit;
-  late Size sizer;
+  late double fontSize;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
 
   @override
   Widget build(BuildContext context) {
-    sizer = MediaQuery.of(context).size;
+    fontSize = getIt<ResponsiveSize>().calculateSize(context, 0.01);
     return SafeArea(
       top: false,
       bottom: false,
@@ -60,8 +60,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
         title: Text(
           AppStrings.homeToolbarTitle,
           style: TextStyle(
-            fontSize:
-                kIsWeb ? ((sizer.height + sizer.width) / 80)! : getSize(18),
+            fontSize: kIsWeb ? fontSize : getSize(18),
           ),
         ),
         centerTitle: kIsWeb ? true : false,

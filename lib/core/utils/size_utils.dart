@@ -82,6 +82,10 @@ EdgeInsetsGeometry getMargin({
   );
 }
 
+
+Size size = WidgetsBinding.instance.window.physicalSize /
+    WidgetsBinding.instance.window.devicePixelRatio;
+
 ///This method is used to get padding or margin responsively
 EdgeInsetsGeometry getMarginOrPadding({
   double? all,
@@ -112,5 +116,8 @@ EdgeInsetsGeometry getMarginOrPadding({
   );
 }
 
-Size size = WidgetsBinding.instance.window.physicalSize /
-    WidgetsBinding.instance.window.devicePixelRatio;
+class ResponsiveSize {
+  double calculateSize(BuildContext context, double multiplier) {
+    return (MediaQuery.of(context).size.width + MediaQuery.of(context).size.height) * multiplier;
+  }
+}

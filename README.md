@@ -19,6 +19,21 @@ In this application used main features are,
 ● Object oriented programming approach 
 ● Support in Android, iOS and Web(responsive)
 
+
+## Folder Structure
+
+Here is the folder structure we have been using in this project.
+
+```
+lib/
+|- core/
+|- data/
+|- domain/
+|- presentation/
+|- config.dart
+|- main.dart
+```
+
 ## For accessing api
 
 We need to create an account in NYT console,

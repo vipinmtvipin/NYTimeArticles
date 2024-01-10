@@ -29,7 +29,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 2,
-      toolbarHeight: getSize(50),
       automaticallyImplyLeading: true,
       backgroundColor: AppColors.secondaryColor,
       leadingWidth: leadingWidth ?? 50,
@@ -44,6 +43,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size(
     size.width,
-    height ?? (kIsWeb ? getSize(65) : getSize(50)),
+    height ?? (kIsWeb ? 55 : getSize(50)),
   );
 }
