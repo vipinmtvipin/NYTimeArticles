@@ -22,7 +22,7 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle wtxtGray20 =  const TextStyle(
+  static TextStyle wTxtGray20 =  const TextStyle(
     color: AppColors.gray,
     fontSize: 20,
     fontFamily: AppStrings.fontName,
@@ -43,13 +43,13 @@ class AppTextStyle {
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle wtxtBold25 =  const TextStyle(
+  static TextStyle wTxtBold25 =  const TextStyle(
     color: AppColors.white,
     fontSize: 25,
     fontFamily: AppStrings.fontName,
     fontWeight: FontWeight.w700,
   );
-  static TextStyle wtxtBlack20 =  const TextStyle(
+  static TextStyle wTxtBlack20 =  const TextStyle(
     color: AppColors.black,
     fontSize: 20,
     fontFamily: AppStrings.fontName,

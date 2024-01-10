@@ -12,7 +12,7 @@ class ArticleRepositoryIml extends ArticleRepository {
   Future<ArticleResponds?> getArticleList(Map<String, dynamic> payload) async {
     try {
       Response response =
-          await GetIt.instance.get<ApiService>().get(NetworkKeys.article_list,
+          await GetIt.instance.get<ApiService>().get(NetworkKeys.articleList,
               queryParameters: payload,
               options: Options(
                 contentType: 'application/json',

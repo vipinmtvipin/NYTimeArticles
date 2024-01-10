@@ -32,6 +32,14 @@ Map<String, String> get environmentHost {
         });
       }
       break;
+    case 'sandbox':
+      {
+        currentEnv.addAll({
+          AppStrings.baseUrl: 'http://api.nytimes.com/svc/mostpopular/v2/',
+          AppStrings.apikey: '7kVHaQFC03HhFyaXzLyv2p0e31shdnaM',
+        });
+      }
+      break;
     default:
       {
         currentEnv.addAll({

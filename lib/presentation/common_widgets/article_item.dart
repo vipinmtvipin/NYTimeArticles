@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ny_articles_app/core/theme/app_text_style.dart';
 import 'package:ny_articles_app/core/theme/color_constant.dart';
+import 'package:ny_articles_app/core/theme/values/dimensions.dart';
 import 'package:ny_articles_app/core/utils/common_util.dart';
 import 'package:ny_articles_app/core/utils/responsive_ui.dart';
 import 'package:ny_articles_app/core/utils/size_utils.dart';
@@ -40,10 +41,10 @@ class ArticleItemWidget extends StatelessWidget {
               child: Image.network(
                 imageUrl,
                 width: (deviceType == Device.desktop)
-                    ? 50
+                    ? Dimensions.appWidgetSize50
                     : getSize(55),
                 height: (deviceType == Device.desktop)
-                    ? 50
+                    ? Dimensions.appWidgetSize50
                     : getSize(55),
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
@@ -52,7 +53,7 @@ class ArticleItemWidget extends StatelessWidget {
                   return Icon(
                     Icons.error,
                     size: (deviceType == Device.desktop)
-                        ? 50
+                        ? Dimensions.appWidgetSize50
                         : getSize(55),
                   );
                 },
@@ -81,13 +82,13 @@ class ArticleItemWidget extends StatelessWidget {
             children: [
               Text(article.title.toString(),
                   style: (deviceType == Device.desktop)
-                      ? AppTextStyle.wtxtBlack20 : AppTextStyle.txtBlack16,
+                      ? AppTextStyle.wTxtBlack20 : AppTextStyle.txtBlack16,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis),
               const SizedBox(height: 5),
               Text(article.byline.toString(),
                   style: (deviceType == Device.desktop)
-                      ? AppTextStyle.wtxtGray20 : AppTextStyle.txtGray16,
+                      ? AppTextStyle.wTxtGray20 : AppTextStyle.txtGray16,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis),
               Row(
@@ -106,7 +107,7 @@ class ArticleItemWidget extends StatelessWidget {
                         .get<CommonUtil>()
                         .dateFormater(article.publishedDate.toString()),
                     style: (deviceType == Device.desktop)
-                        ? AppTextStyle.wtxtGray20 : AppTextStyle.txtGray16,
+                        ? AppTextStyle.wTxtGray20 : AppTextStyle.txtGray16,
                   ),
                 ],
               )

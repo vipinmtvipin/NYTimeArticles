@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ny_articles_app/core/constants/image_constant.dart';
 import 'package:ny_articles_app/core/theme/color_constant.dart';
 import 'package:ny_articles_app/core/theme/values/decorations.dart';
+import 'package:ny_articles_app/core/utils/size_utils.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -18,8 +19,8 @@ class CustomDrawer extends StatelessWidget {
             child: Image.asset(
               ImageConstant.imgHome,
               color: AppColors.mainColor,
-              width: 80,
-              height: 80,
+              width: getSize(80),
+              height: getSize(80),
             ),
           ),
           ListTile(

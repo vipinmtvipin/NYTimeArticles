@@ -45,8 +45,8 @@ class ArticlePageState extends BasePageState<ArticlePage> {
         /// now I using same one for all because UI is similar for web and mobile
         /// if we have different Ui for all platform, no need to pass the 2ed argument -Device type
         mobile: mobileView(context,Device.mobile),
-        desktop: mobileView(context,Device.desktop), // webView(context),
-        tablet: mobileView(context,Device.tablet),
+        desktop: mobileView(context,Device.desktop),// webView(context) or custom widget
+        tablet: mobileView(context,Device.tablet), // create custom widget for tab
       ),
     );
   }
@@ -57,7 +57,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
         title: Text(
           AppStrings.homeToolbarTitle,
           style: (device == Device.desktop)
-              ? AppTextStyle.wtxtBold25 : AppTextStyle.txtBold18
+              ? AppTextStyle.wTxtBold25 : AppTextStyle.txtBold18
         ),
         centerTitle: kIsWeb ? true : false,
         actions: const [

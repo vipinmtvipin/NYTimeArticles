@@ -6,7 +6,7 @@ import '../../core/network/logging_interceptor.dart';
 class ApiService {
 
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: NetworkKeys.base_url,
+    baseUrl: NetworkKeys.baseUrl,
     connectTimeout: const Duration(seconds: 60),
     receiveTimeout: const Duration(seconds: 60),))
     ..interceptors.addAll([

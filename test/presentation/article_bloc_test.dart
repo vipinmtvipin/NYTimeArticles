@@ -81,7 +81,7 @@ void main() {
         act: (cubit) => cubit.fetchArticles(),
         expect: () => [
               ArticleLoading(),
-              ArticleError(message: 'Failed to load articles'),
+              const ArticleError(message: 'Failed to load articles'),
             ]);
 
     blocTest<ArticleBloc, ArticleState>(

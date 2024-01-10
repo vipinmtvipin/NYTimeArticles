@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-
 import '../color_constant.dart';
 
 class Borders {

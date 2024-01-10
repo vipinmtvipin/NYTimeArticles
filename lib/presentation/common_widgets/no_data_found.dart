@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ny_articles_app/core/theme/app_text_style.dart';
 import 'package:ny_articles_app/core/theme/color_constant.dart';
 import 'package:ny_articles_app/core/theme/values/dimensions.dart';
+import 'package:ny_articles_app/core/utils/size_utils.dart';
 
 class NoDataUI extends StatelessWidget {
   final String text;
@@ -17,7 +18,7 @@ class NoDataUI extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.file_copy_outlined, size: 50,),
+          Icon(Icons.file_copy_outlined, size: getSize(50),),
           const SizedBox(height: Dimensions.appWidgetGap20,),
           Text(
             text,

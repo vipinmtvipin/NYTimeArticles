@@ -13,4 +13,5 @@ class Dimensions {
 
   static const appWidgetGap10 = kIsWeb ? 15.0 : 10.0;
   static const appWidgetGap20 = kIsWeb ? 25.0 : 20.0;
+  static const appWidgetSize50 = 50.0;
 }
