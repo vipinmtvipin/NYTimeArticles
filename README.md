@@ -28,3 +28,10 @@ https://developer.nytimes.com/get-started. Here we can generate our api-key for 
 
 You can use this command for run app in development environment
 flutter run --dart-define=ENVIRONMENT=development
+
+## Screenshots
+
+![image](https://github.com/vipinmtvipin/NYTimeArticles/assets/57891925/713fcc92-7f24-44e0-808b-8911890c573e)
+
+
+
