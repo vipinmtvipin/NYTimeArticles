@@ -22,19 +22,38 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle txtGray15 =  TextStyle(
+  static TextStyle wtxtGray20 =  const TextStyle(
     color: AppColors.gray,
-    fontSize: getFontSize(15),
+    fontSize: 20,
+    fontFamily: AppStrings.fontName,
+    fontWeight: FontWeight.w400,
+  );
+  static TextStyle txtGray16 =  TextStyle(
+    color: AppColors.gray,
+    fontSize: getFontSize(16),
     fontFamily: AppStrings.fontName,
     fontWeight: FontWeight.w400,
   );
 
 
-  static TextStyle txtBold16 =  TextStyle(
+  static TextStyle txtBold18 =  TextStyle(
     color: AppColors.white,
-    fontSize: getFontSize(16),
+    fontSize: getFontSize(18),
     fontFamily: AppStrings.fontName,
     fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle wtxtBold25 =  const TextStyle(
+    color: AppColors.white,
+    fontSize: 25,
+    fontFamily: AppStrings.fontName,
+    fontWeight: FontWeight.w700,
+  );
+  static TextStyle wtxtBlack20 =  const TextStyle(
+    color: AppColors.black,
+    fontSize: 20,
+    fontFamily: AppStrings.fontName,
+    fontWeight: FontWeight.w400,
   );
 
   static TextStyle txtBlackBold14 =  TextStyle(

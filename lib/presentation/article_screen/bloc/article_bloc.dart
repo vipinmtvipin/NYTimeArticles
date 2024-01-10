@@ -29,10 +29,10 @@ class ArticleBloc extends Cubit<ArticleState> {
         if (responds != null && responds.status == 'OK') {
           emit(ArticleLoaded(articles: responds.results!));
           }else {
-          emit(ArticleError(message: AppStrings.serverError));
+          emit(const ArticleError(message: AppStrings.serverError));
         }
       } catch (e) {
-        emit(ArticleError(message: AppStrings.serverError));
+        emit(const ArticleError(message: AppStrings.serverError));
       }
     }else{
       emit(ArticleNoNetwork());

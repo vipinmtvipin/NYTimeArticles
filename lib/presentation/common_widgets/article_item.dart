@@ -1,20 +1,23 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ny_articles_app/core/theme/app_text_style.dart';
 import 'package:ny_articles_app/core/theme/color_constant.dart';
 import 'package:ny_articles_app/core/utils/common_util.dart';
+import 'package:ny_articles_app/core/utils/responsive_ui.dart';
 import 'package:ny_articles_app/core/utils/size_utils.dart';
 import 'package:ny_articles_app/data/model/article_responds.dart';
 
 class ArticleItemWidget extends StatelessWidget {
   final Result article;
+  final Device? deviceType;
   final VoidCallback? onTap;
 
   const ArticleItemWidget({
     super.key,
     required this.article,
     this.onTap,
+    this.deviceType,
   });
 
   @override
@@ -36,15 +39,11 @@ class ArticleItemWidget extends StatelessWidget {
             child: ClipOval(
               child: Image.network(
                 imageUrl,
-                width: kIsWeb
-                    ? GetIt.instance
-                        .get<ResponsiveSize>()
-                        .calculateSize(context, 0.03)
+                width: (deviceType == Device.desktop)
+                    ? 50
                     : getSize(55),
-                height: kIsWeb
-                    ? GetIt.instance
-                        .get<ResponsiveSize>()
-                        .calculateSize(context, 0.03)
+                height: (deviceType == Device.desktop)
+                    ? 50
                     : getSize(55),
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
@@ -52,10 +51,8 @@ class ArticleItemWidget extends StatelessWidget {
                     StackTrace? stackTrace) {
                   return Icon(
                     Icons.error,
-                    size: kIsWeb
-                        ? GetIt.instance
-                            .get<ResponsiveSize>()
-                            .calculateSize(context, 0.02)
+                    size: (deviceType == Device.desktop)
+                        ? 50
                         : getSize(55),
                   );
                 },
@@ -83,12 +80,14 @@ class ArticleItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(article.title.toString(),
-                  style: AppTextStyle.txtBlack16,
+                  style: (deviceType == Device.desktop)
+                      ? AppTextStyle.wtxtBlack20 : AppTextStyle.txtBlack16,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis),
               const SizedBox(height: 5),
               Text(article.byline.toString(),
-                  style: AppTextStyle.txtGray15,
+                  style: (deviceType == Device.desktop)
+                      ? AppTextStyle.wtxtGray20 : AppTextStyle.txtGray16,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis),
               Row(
@@ -97,7 +96,7 @@ class ArticleItemWidget extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.date_range,
-                    size: getSize(15),
+                    size: (deviceType == Device.desktop) ? 18 : 16,
                   ),
                   const SizedBox(
                     width: 5,
@@ -106,7 +105,8 @@ class ArticleItemWidget extends StatelessWidget {
                     GetIt.instance
                         .get<CommonUtil>()
                         .dateFormater(article.publishedDate.toString()),
-                    style: AppTextStyle.txtGray15,
+                    style: (deviceType == Device.desktop)
+                        ? AppTextStyle.wtxtGray20 : AppTextStyle.txtGray16,
                   ),
                 ],
               )
@@ -116,10 +116,8 @@ class ArticleItemWidget extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Icon(
               Icons.arrow_forward_ios,
-              size: kIsWeb
-                  ? GetIt.instance
-                      .get<ResponsiveSize>()
-                      .calculateSize(context, 0.01)
+              size: (deviceType == Device.desktop)
+                  ? 25
                   : getSize(20),
               color: AppColors.gray,
             ),

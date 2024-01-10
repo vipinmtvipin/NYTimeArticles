@@ -35,8 +35,6 @@ Future<void> init() async {
   // Utils setup
   getIt.registerLazySingleton(()=> ConnectivityService());
   getIt.registerLazySingleton(()=> CommonUtil());
-  getIt.registerLazySingleton(()=> ResponsiveSize());
-
 
 }
 

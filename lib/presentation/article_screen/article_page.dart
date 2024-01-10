@@ -1,13 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ny_articles_app/core/constants/image_constant.dart';
 import 'package:ny_articles_app/core/constants/string_constants.dart';
 import 'package:ny_articles_app/core/theme/app_text_style.dart';
-import 'package:ny_articles_app/core/theme/color_constant.dart';
 import 'package:ny_articles_app/core/theme/values/dimensions.dart';
 import 'package:ny_articles_app/core/utils/responsive_ui.dart';
-import 'package:ny_articles_app/core/utils/size_utils.dart';
 import 'package:ny_articles_app/data/model/article_responds.dart';
 import 'package:ny_articles_app/presentation/article_screen/bloc/article_bloc.dart';
 import 'package:ny_articles_app/presentation/article_screen/bloc/article_state.dart';
@@ -28,8 +25,8 @@ class ArticlePage extends BasePage {
 }
 
 class ArticlePageState extends BasePageState<ArticlePage> {
+
   late ArticleBloc _articleCubit;
-  late double fontSize;
 
   @override
   void initState() {
@@ -40,28 +37,27 @@ class ArticlePageState extends BasePageState<ArticlePage> {
 
   @override
   Widget build(BuildContext context) {
-    fontSize = getIt<ResponsiveSize>().calculateSize(context, 0.01);
     return SafeArea(
       top: false,
       bottom: false,
       child: Responsive(
         /// if the UI is different for web/tab we need to create separate widget
         /// now I using same one for all because UI is similar for web and mobile
-        mobile: mobileView(context),
-        desktop: mobileView(context),
-        tablet: mobileView(context),
+        /// if we have different Ui for all platform, no need to pass the 2ed argument -Device type
+        mobile: mobileView(context,Device.mobile),
+        desktop: mobileView(context,Device.desktop), // webView(context),
+        tablet: mobileView(context,Device.tablet),
       ),
     );
   }
 
-  Widget mobileView(BuildContext context) {
+  Widget mobileView(BuildContext context, Device device) {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
           AppStrings.homeToolbarTitle,
-          style: TextStyle(
-            fontSize: kIsWeb ? fontSize : getSize(18),
-          ),
+          style: (device == Device.desktop)
+              ? AppTextStyle.wtxtBold25 : AppTextStyle.txtBold18
         ),
         centerTitle: kIsWeb ? true : false,
         actions: const [
@@ -87,7 +83,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
             showToast(AppStrings.noNetwork);
           } else if (state is ArticleError) {
             hideLoadingDialog();
-            if (state.message != null && state.message.isNotEmpty) {
+            if (state.message.isNotEmpty) {
               showToast(state.message);
             } else {
               showToast(AppStrings.serverError);
@@ -99,7 +95,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
         },
         builder: (BuildContext context, ArticleState state) {
           if (state is ArticleLoaded) {
-            return articleLister(state.articles);
+            return articleLister(state.articles,device);
           } else {
             return const NoDataUI(AppStrings.noDataFound);
           }
@@ -115,7 +111,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
     return Container();
   }
 
-  Widget articleLister(List<Result> articles) {
+  Widget articleLister(List<Result> articles, Device device) {
     return (articles.isEmpty)
         ? const NoDataUI(AppStrings.noDataFound)
         : ListView.builder(
@@ -123,6 +119,7 @@ class ArticlePageState extends BasePageState<ArticlePage> {
             itemCount: articles.length,
             itemBuilder: (BuildContext context, int index) {
               return ArticleItemWidget(
+                deviceType : device,
                 article: articles[index],
                 onTap: () => {
                   // on item click navigate to details screen

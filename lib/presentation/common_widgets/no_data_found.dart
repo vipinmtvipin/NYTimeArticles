@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ny_articles_app/core/theme/app_text_style.dart';
 import 'package:ny_articles_app/core/theme/color_constant.dart';
 import 'package:ny_articles_app/core/theme/values/dimensions.dart';
-import 'package:ny_articles_app/core/utils/size_utils.dart';
 
 class NoDataUI extends StatelessWidget {
   final String text;
