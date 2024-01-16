@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ny_articles_app/data/repositories/article_repository_iml.dart';
 import 'package:ny_articles_app/domain/repositories/article_repository.dart';
 
 class MockDio extends Mock implements Dio {}
 
+@GenerateMocks([Dio])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group('ArticleRepository', () {

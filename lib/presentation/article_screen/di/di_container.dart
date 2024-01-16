@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 
 import 'package:get_it/get_it.dart';
@@ -33,9 +34,9 @@ Future<void> init() async {
   getIt.registerLazySingleton(()=> ApiService());
 
   // Utils setup
-  getIt.registerLazySingleton(()=> ConnectivityService());
+  getIt.registerSingleton<Connectivity>(Connectivity());
+  getIt.registerLazySingleton<ConnectivityService>(() => ConnectivityService(getIt<Connectivity>()));
   getIt.registerLazySingleton(()=> CommonUtil());
-
 }
 
 void clearGetItObjects(){

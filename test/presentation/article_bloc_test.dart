@@ -12,21 +12,17 @@ class MockArticleUseCase extends Mock implements ArticleUseCase {}
 
 class MockConnectivityService extends Mock implements ConnectivityService {}
 
-class MockArticleResponds extends Mock implements ArticleResponds {}
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
   group('ArticleBloc', () {
     late ArticleBloc articleCubit;
     late MockArticleUseCase mockArticleUseCase;
     late MockConnectivityService mockConnectionUtil;
-    late MockArticleResponds mockArticleResponds;
 
     const payloadRequest = {'api-key': "sample-key"};
-    const responseData = {
-      'results': [
-        {'type': 'Article', 'published_date': "2024-01-05"}
-      ],
+    final article = [Result(title: "Article one", id: 101)];
+    final responseData = {
+      'results': article,
       'status': "OK",
       'numResults': 10,
       'copyright': "@"
@@ -35,7 +31,6 @@ void main() {
     setUp(() {
       mockArticleUseCase = MockArticleUseCase();
       mockConnectionUtil = MockConnectivityService();
-      mockArticleResponds = MockArticleResponds();
 
       GetIt.I.registerSingleton<ConnectivityService>(mockConnectionUtil);
       GetIt.I.registerSingleton<ArticleUseCase>(mockArticleUseCase);
@@ -52,28 +47,29 @@ void main() {
       expect(articleCubit.state, ArticleInitial());
     });
 
+
     blocTest<ArticleBloc, ArticleState>(
         'emits [ArticleLoading, ArticleLoaded] when fetchArticles is successful',
         build: () {
-          when(mockConnectionUtil.isConnected())
-              .thenReturn(true as Future<bool>);
+          when(mockConnectionUtil.isConnected()).thenAnswer((_) async => true);
+
           when(mockArticleUseCase
               .execute(payloadRequest)
               .then((_) async => responseData));
           return articleCubit;
         },
         act: (cubit) => cubit.fetchArticles(),
-        wait: const Duration(milliseconds: 100),
+        //wait: const Duration(milliseconds: 100),
         expect: () => [
               ArticleLoading(),
-              ArticleLoaded(articles: mockArticleResponds.results!),
+              ArticleLoaded(articles: article),
             ]);
 
     blocTest<ArticleBloc, ArticleState>(
         'emits [ArticleLoading, ArticleError] when fetchArticles fails',
         build: () {
-          when(mockConnectionUtil.isConnected())
-              .thenReturn(true as Future<bool>);
+          when(mockConnectionUtil.isConnected()).thenAnswer((_) async => true);
+
           when(mockArticleUseCase.execute(payloadRequest))
               .thenThrow(Exception('Test error'));
           return articleCubit;
@@ -87,8 +83,8 @@ void main() {
     blocTest<ArticleBloc, ArticleState>(
         'emits [ArticleError] when no internet connection',
         build: () {
-          when(mockConnectionUtil.isConnected())
-              .thenReturn(false as Future<bool>);
+          when(mockConnectionUtil.isConnected()).thenAnswer((_) async => false);
+
           return articleCubit;
         },
         act: (cubit) => cubit.fetchArticles(),
